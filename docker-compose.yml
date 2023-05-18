@@ -17,6 +17,7 @@ services:
 
     # nginx
     nginx:
+        container_name: nginx
         image: nginx:alpine
         restart: unless-stopped
         ports:
@@ -29,7 +30,8 @@ services:
 
     # db mysql
     db:
-        image: mysql:5.7.22
+        container_name: mysql
+        image: mysql:8.0
         restart: unless-stopped
         environment:
             MYSQL_DATABASE: ${DB_DATABASE:-laravel}
