@@ -20,7 +20,7 @@ class SupportService
 
     public function findOne(string $id): stdClass|null
     {
-        return $this->repository->findOne();
+        return $this->repository->findOne($id);
     }
 
     public function new(CreateSupportDTO $dto): stdClass

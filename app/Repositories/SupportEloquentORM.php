@@ -34,8 +34,7 @@ class SupportEloquentORM implements SupportRepositoryInterface
             return null;
         }
         return (object) $support->toArray;*/
-
-        return !$support ? null : $support->toArray;
+        return !$support ? null : (object) $support->toArray();
     }
 
     public function delete(string $id): void
@@ -45,9 +44,11 @@ class SupportEloquentORM implements SupportRepositoryInterface
 
     public function new(\App\DTO\CreateSupportDTO $dto): stdClass
     {
-        return (object) $this->model->create(
+        $support = $this->model->create(
             (array) $dto
         );
+
+        return (object) $support->toArray();
     }
 
     public function update(\App\DTO\UpdateSupportDTO $dto): stdClass|null
