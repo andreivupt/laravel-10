@@ -1,7 +1,10 @@
 <?php
 
+namespace App\Repositories;
+
 use App\Models\Support;
-use App\Services\SupportRepositoryInterface;
+use App\Repositories\SupportRepositoryInterface;
+use stdClass;
 
 class SupportEloquentORM implements SupportRepositoryInterface
 {
@@ -19,7 +22,7 @@ class SupportEloquentORM implements SupportRepositoryInterface
                             $query->orWhere('body', 'like', "%{$filter}%");
                         }
                     })
-                    ->all()
+                    ->get()
                     ->toArray();
     }
 
@@ -42,11 +45,21 @@ class SupportEloquentORM implements SupportRepositoryInterface
 
     public function new(\App\DTO\CreateSupportDTO $dto): stdClass
     {
-        // TODO: Implement new() method.
+        return (object) $this->model->create(
+            (array) $dto
+        );
     }
 
     public function update(\App\DTO\UpdateSupportDTO $dto): stdClass|null
     {
-        // TODO: Implement update() method.
+         if (!$support = $this->model->find($dto->id)) {
+             return null;
+         }
+
+         $support->update(
+             (array) $dto
+         );
+
+        return (object) $support->toArray();
     }
 }
