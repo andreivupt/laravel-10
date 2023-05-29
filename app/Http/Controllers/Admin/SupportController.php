@@ -20,8 +20,16 @@ class SupportController extends Controller
     public function index(Request $request)
     {
         //$supports = $support->all();
-        $supports = $this->service->getAll($request->filter);
-        return view('admin.supports.index', compact('supports'));
+        //$supports = $this->service->getAll($request->filter);
+        $supports = $this->service->paginate(
+            page: $request->get('page', 1),
+            perPage: $request->get('per_page', 3),
+            filter: $request->filter,
+        );
+
+        $filters = ['filter' => $request->get('filter','')];
+
+        return view('admin.supports.index', compact('supports', 'filters'));
     }
 
     public function show(string $id)
